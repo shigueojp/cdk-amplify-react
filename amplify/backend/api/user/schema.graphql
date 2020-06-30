@@ -1,0 +1,30 @@
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}
+
+type User
+  @model
+  @auth(rules: [
+      {allow: owner, provider: userPools, queries: null, mutations: [create, update, delete]},
+    ])
+{
+  id: ID!
+  name: String
+  email: String!
+  profilePhoto: S3Object
+}
+type Post
+  @model(subscriptions: { level: public })
+  @auth(rules: [
+      {allow: owner, ownerField:"owner", provider: userPools, operations:[read, create]}
+      {allow: private, provider: userPools, operations:[read]}
+    ])
+{
+  type: String!
+  id: ID!
+  content: String!
+  owner: String
+  timestamp: AWSTimestamp!
+}
