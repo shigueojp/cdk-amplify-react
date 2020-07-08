@@ -3,18 +3,27 @@ import * as codepipeline from '@aws-cdk/aws-codepipeline';
 import * as codepipelineactions from '@aws-cdk/aws-codepipeline-actions';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as iam from '@aws-cdk/aws-iam';
+import * as ssm from '@aws-cdk/aws-ssm';
 
 interface ConfigProps extends cdk.StackProps {
   github: {
     owner: string;
     repository: string;
   };
-  AmplifyEnvProd: string;
-  AmplifyEnvDev: string;
+  ProdAcc: string;
 }
 export class CICDProdStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: ConfigProps) {
     super(scope, id, props);
+
+    // Putting the AmplifyEnvDev into SSM
+    // eslint-disable-next-line no-new
+    new ssm.StringParameter(this, 'Parameter', {
+      parameterName: 'AmplifyAccountNumberProd',
+      description: 'Account Number for Production ENV',
+      stringValue: props.ProdAcc,
+    });
+
     // CodePipeline for master ENV
     const pipelineMaster = new codepipeline.Pipeline(this, 'pipelineMaster', {
       pipelineName: 'MasterAoD',
@@ -86,7 +95,7 @@ export class CICDProdStack extends cdk.Stack {
           outputs: [outputMasterWebsite],
           environmentVariables: {
             AmplifyEnvProd: {
-              value: props.AmplifyEnvProd,
+              value: 'prod',
             },
           },
         }),

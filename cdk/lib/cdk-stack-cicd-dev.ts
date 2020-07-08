@@ -14,20 +14,10 @@ interface ConfigProps extends cdk.StackProps {
     owner: string;
     repository: string;
   };
-  AmplifyEnvProd: string;
-  AmplifyEnvDev: string;
 }
 export class CICDDevStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: ConfigProps) {
     super(scope, id, props);
-
-    // Putting the AmplifyEnvDev into SSM
-    // eslint-disable-next-line no-new
-    new ssm.StringParameter(this, 'Parameter', {
-      parameterName: 'amplifyEnvDev',
-      description: 'Description for your parameter',
-      stringValue: props.AmplifyEnvDev,
-    });
 
     // Creating S3 for React App
     const bucketHosting = new s3.Bucket(this, 'bucketReactAoD', {

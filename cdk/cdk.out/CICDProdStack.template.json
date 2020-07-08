@@ -1,5 +1,17 @@
 {
   "Resources": {
+    "Parameter9E1B4FBA": {
+      "Type": "AWS::SSM::Parameter",
+      "Properties": {
+        "Type": "String",
+        "Value": "183867474463",
+        "Description": "Account Number for Production ENV",
+        "Name": "AmplifyAccountNumberProd"
+      },
+      "Metadata": {
+        "aws:cdk:path": "CICDProdStack/Parameter/Resource"
+      }
+    },
     "pipelineMasterArtifactsBucketEncryptionKey3CD8EE6F": {
       "Type": "AWS::KMS::Key",
       "Properties": {

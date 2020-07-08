@@ -1,4 +1,4 @@
-# Amplify Cross Account Using CodePipeline
+# Amplify Cross Account CI/CD Using CDK
 
 This project was generated with:
  - [React](https://github.com/facebook/react) version 16.13.1.
@@ -6,17 +6,28 @@ This project was generated with:
  - [CDK](https://github.com/aws/aws-cdk) version 1.47.1.
 
 The frontend is using React with amplify react UI for Authentication.
+- it has unit test, integration test and UI test.
 
 The backend is using Amplify with the following services:
 - S3 as Storage.
 - Cognito for authentication.
 - S3 for hosting React Application.
-- AppSync for GraphQL.
+- AppSync/GraphQL.
 
 The CI/CD process is created through CDK using:
-- Github as Source, Codebuild, Codepipeline, CloudFront and S3.
+- Github as Source, Codebuild, Codepipeline, S3 and CloudFront.
 
-It`s using cross account simulating two AWS accounts: developer and production.
+# Story Case
+
+A customer using amplify requests cross-account CI/CD since their company have Developer AWS Account and Production AWS Account.
+
+Until the moment, amplify does not support cross-account as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
+
+## Solution
+
+Create a custom CI/CD through Codepipeline using CDK.
+
+It`s using two **different** account simulating two AWS accounts: developer and production.
 - Developer AWS Account is related to dev/test branches.
 - Production AWS Account is related to master branch.
 
@@ -37,7 +48,7 @@ It`s using cross account simulating two AWS accounts: developer and production.
 >>
 >>Another simulating Production AWS Account.
 
-**Creating Developer/Test AWS Account**
+**Simulating Developer/Test AWS Account**
 1. In your terminal, run `amplify configure`.
 2. Sign in to your **dev/test** AWS account, go to terminal and `Press Enter` and follow the commands:
    1. Specify the AWS region.
@@ -52,7 +63,7 @@ It`s using cross account simulating two AWS accounts: developer and production.
 
 ---
 
-**Creating Production AWS Account**
+**Simulating Production AWS Account**
 1. In your terminal, run `amplify configure`.
 2. Sign in to your **prod** AWS account, go to terminal and `Press Enter` and follow the commands:
    1. Specify the AWS region.
@@ -68,13 +79,12 @@ It`s using cross account simulating two AWS accounts: developer and production.
 If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/angular#option-1-watch-the-video-guide).
 
 
-
 ## Creating Amplify Environment
 
 Create amplify environment: **dev**
 1. Run `npm install` to install all the packages needed.
 2. Run `amplify init` and follow the instructions according to your environment.
-3. Choose **dev** for production environment.
+3. Choose **dev** for dev environment.
 4. Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
 ![AmplifyDevTestProfile](img/amplifyDev.png)
 
@@ -92,30 +102,41 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
    4. Run `git checkout merge master`
 2. This file should be in both branches in order to run CI/CD with success.
 
-## How to Run CI/CD Process Using CDK
+**Edit env variables from CDK**
 
-1. Fork this project
+1. Copy env.ts.example to env.ts
+2. Change the variables for your environment variables.
+
+## Deploy CI/CD Process Using CDK
+
 1. Run the command below using your github Token
-   2. To get your gitHubToken, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html)
+   1. To get your gitHubToken, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html)
    ```
     aws secretsmanager create-secret \
     --name GitHubToken \
     --secret-string <YourGitHubTokenID> \
     --region us-east-1
     ```
-3. Configure your Access-Key and Secret-Key for dev/test environment.
-   1. `aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey>`
-   2. `aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey>`
+2. Configure your Access-Key and Secret-Key for dev/test environment.
+   1. `aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test`
+   2. `aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> -profile amplify-for-dev-test`
    3. If success should appear in your terminal.
    ![SSMPutParamater](img/ssm_put_parameter.png)
-2. Run `cd cdk && cdk bootstrap`
-3. For CI/CD for development/test environment:
+3. If, first time using CDK, Run `cd cdk && cdk bootstrap`
+4. For CI/CD for development/test environment:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
-4. For CI/CD Production environment:
-  1. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
-  2. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
+5. For CI/CD Production environment:
+  2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
+  3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
 
-### Testing your resources
+### Testing CI/CD
+
+Change here, put some code commented and after remove comment and push
+1. Change any file without break the tests.
+2. Commit and push.
+3. Verify if the changed was made in cloudfront.
+
+### Testing your resources in local development
 
 1. Run `npm run test` for Unit Test and Integration Test.
 2. Run `node_modules/.bin/cypress run` for E2E Test.
@@ -128,6 +149,6 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 ### Issues
 
-1. Removed E2E tests with cypress in codebuild because of instability, sometimes work and sometimes doesn`t.
+1. Removed E2E tests with cypress in codebuild because of perfomance and instability, sometimes work and sometimes doesn`t.
   1. You still can run `node_modules/.bin/cypress run` in your local.
 

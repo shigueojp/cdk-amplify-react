@@ -299,25 +299,6 @@
         "id": "CICDDevStack",
         "path": "CICDDevStack",
         "children": {
-          "Parameter": {
-            "id": "Parameter",
-            "path": "CICDDevStack/Parameter",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "CICDDevStack/Parameter/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
-                  "aws:cdk:cloudformation:props": {
-                    "type": "String",
-                    "value": "dev",
-                    "description": "Description for your parameter",
-                    "name": "amplifyEnvDev"
-                  }
-                }
-              }
-            }
-          },
           "bucketReactAoD": {
             "id": "bucketReactAoD",
             "path": "CICDDevStack/bucketReactAoD",
@@ -1354,6 +1335,25 @@
         "id": "CICDProdStack",
         "path": "CICDProdStack",
         "children": {
+          "Parameter": {
+            "id": "Parameter",
+            "path": "CICDProdStack/Parameter",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "CICDProdStack/Parameter/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                  "aws:cdk:cloudformation:props": {
+                    "type": "String",
+                    "value": "183867474463",
+                    "description": "Account Number for Production ENV",
+                    "name": "AmplifyAccountNumberProd"
+                  }
+                }
+              }
+            }
+          },
           "pipelineMaster": {
             "id": "pipelineMaster",
             "path": "CICDProdStack/pipelineMaster",

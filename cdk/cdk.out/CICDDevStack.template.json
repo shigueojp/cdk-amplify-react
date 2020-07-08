@@ -1,17 +1,5 @@
 {
   "Resources": {
-    "Parameter9E1B4FBA": {
-      "Type": "AWS::SSM::Parameter",
-      "Properties": {
-        "Type": "String",
-        "Value": "dev",
-        "Description": "Description for your parameter",
-        "Name": "amplifyEnvDev"
-      },
-      "Metadata": {
-        "aws:cdk:path": "CICDDevStack/Parameter/Resource"
-      }
-    },
     "bucketReactAoD390EA36A": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
