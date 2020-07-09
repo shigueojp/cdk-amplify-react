@@ -138,6 +138,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
    ![SSMPutParamater](img/ssm_put_parameter.png)
 
 3. If, first time using CDK, Run `cd cdk && cdk bootstrap`
+4. Run `npm install` inside cdk folder.
 4. For CI/CD for development/test environment:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
 5. For CI/CD Production environment:
