@@ -100,9 +100,8 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 1. Commit this file and merge master branch into dev.
    1. Run `git add .`
-   2. Run `git commit -am 'Pushing all amplify configurations files.'`
-   3. Run `git checkout dev`
-   4. Run `git checkout merge master`
+   3. Run `git checkout -b dev`
+   4. Run `git commit -am 'Pushing all amplify configurations files.'`
 2. This file should be in **both** branches in order to run CI/CD with success.
 
 ## Deploy CI/CD Process Using CDK
