@@ -41,6 +41,7 @@ It`s using two **different** account simulating two AWS accounts: developer and 
    - Install [AWS CDK](https://github.com/aws/aws-cdk)
 
 2. Fork this project for testing CI/CD.
+3. Clone the forked repository to your local.
 
 ## Setup AWS Profile
 >Create **two** IAM Users:
@@ -104,6 +105,12 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
    4. Run `git commit -am 'Pushing all amplify configurations files.'`
 2. This file should be in **both** branches in order to run CI/CD with success.
 
+## Running in your local development
+
+1. Run `amplify env checkout dev`
+2. Run `amplify push` and create all the resources.
+3. Run `npm run start` and open http://localhost:3000
+
 ## Deploy CI/CD Process Using CDK
 
 **Edit env variables from CDK**
@@ -122,8 +129,10 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
     --region us-east-1
     ```
 2. Configure your Access-Key and Secret-Key for dev/test environment.
-   1. `aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test`
-   2. `aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> -profile amplify-for-dev-test`
+   ```
+   aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test
+   aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> --profile amplify-for-dev-test
+   ```
    3. If success, the image below should appear in your terminal.
 
    ![SSMPutParamater](img/ssm_put_parameter.png)
