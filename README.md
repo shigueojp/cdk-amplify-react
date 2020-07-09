@@ -59,6 +59,7 @@ It`s using two **different** account simulating two AWS accounts: developer and 
 6. Specify AWS Profile name to **amplify-for-dev-test**.
 
 ![AmplifyDevTestProfile](img/amplify_configure.png)
+
 7. Save this access/secret key in a safe place.
 7. Sign out from AWS Console.
 
