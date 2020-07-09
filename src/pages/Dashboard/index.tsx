@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Form } from '@unform/web';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API, graphqlOperation, Storage } from 'aws-amplify';
 import Observable from 'zen-observable';
 import { FaSpinner } from 'react-icons/fa';
 import { formatDistanceToNow, fromUnixTime } from 'date-fns';
@@ -18,8 +18,8 @@ import Input from '../../components/Input/index';
 import Button from '../../components/Button';
 import { createPost } from '../../graphql/mutations';
 import { onCreatePost } from '../../graphql/subscriptions';
-import { listPostsSortedByTimestamp } from '../../graphql/queries';
-import { ListPostsSortedByTimestampQuery } from '../../API';
+import { listPostsSortedByTimestamp, getUser } from '../../graphql/queries';
+import { ListPostsSortedByTimestampQuery, GetUserQuery } from '../../API';
 import profilePhoto from '../../assets/img/profile.jpg';
 import { useAuth } from '../../hooks/AuthContext';
 
@@ -32,6 +32,11 @@ interface IPost {
   type: string;
   updatedAt: string;
   timeFormatted: string;
+  userData: {
+    name: string;
+    profileURL: string;
+    email: string;
+  };
 }
 
 const Dashboard: React.FC = () => {
@@ -49,6 +54,31 @@ const Dashboard: React.FC = () => {
     return result;
   };
 
+  const getPhotoFromS3 = async (ownerID: string): Promise<object> => {
+    const res = (await API.graphql(
+      graphqlOperation(getUser, {
+        id: ownerID,
+      }),
+    )) as {
+      data: GetUserQuery;
+    };
+
+    if (res?.data?.getUser) {
+      if (res?.data?.getUser?.profilePhoto) {
+        const profileURL = await Storage.get(res.data.getUser.profilePhoto.key);
+        return {
+          email: res.data.getUser.email,
+          name: res.data.getUser.name,
+          profileURL: profileURL.toString(),
+        };
+      }
+
+      return { email: res.data.getUser.email, name: res.data.getUser.name };
+    }
+
+    return {};
+  };
+
   useEffect(() => {
     let unsubscribe;
     async function handleGetPosts(type: string, nextToken = null) {
@@ -60,30 +90,42 @@ const Dashboard: React.FC = () => {
           nextToken,
         }),
       )) as { data: ListPostsSortedByTimestampQuery };
+
       if (res.data?.listPostsSortedByTimestamp?.nextToken)
         setNextToken(res.data?.listPostsSortedByTimestamp?.nextToken);
 
       if (res.data?.listPostsSortedByTimestamp?.items) {
-        const chimesFormatted = res.data.listPostsSortedByTimestamp.items.map(
-          (item) => {
-            return {
-              ...item,
-              timeFormatted: calcTimestampDiff(item?.timestamp as number),
-            };
-          },
+        // Para cada POST, pegar o owner, comparar com o User e instanciar a imagem do S3, retornando no POST
+        // Lição de vida com Promise All e Alias, escrever aqui
+        const chimesFormatted = await Promise.all(
+          res.data.listPostsSortedByTimestamp.items.map(
+            async (item): Promise<IPost> => {
+              return {
+                ...item,
+                userData: await getPhotoFromS3(item?.owner as string),
+                timeFormatted: calcTimestampDiff(item?.timestamp as number),
+              } as IPost;
+            },
+          ),
         );
-        setChimes(chimesFormatted as IPost[]);
+        setChimes(await chimesFormatted);
       }
       setIsLoading(false);
     }
+
     handleGetPosts('post');
+
+    // Here comes part 2
     const subscription = API.graphql(graphqlOperation(onCreatePost));
     if (subscription instanceof Observable) {
       const sub = subscription.subscribe({
-        next: (payload) => {
+        next: async (payload) => {
           try {
             const chime = {
               ...payload.value.data.onCreatePost,
+              userData: await getPhotoFromS3(
+                payload.value.data.onCreatePost?.owner as string,
+              ),
               timeFormatted: calcTimestampDiff(
                 payload.value.data.onCreatePost.timestamp as number,
               ),
@@ -138,11 +180,16 @@ const Dashboard: React.FC = () => {
               {chimes.map((chime) => (
                 <li key={chime.id}>
                   <Avatar>
-                    <img src={user.profileURL || profilePhoto} alt="Profile" />
+                    <img
+                      src={chime.userData.profileURL || profilePhoto}
+                      alt="Profile"
+                    />
                   </Avatar>
                   <Teste>
                     <HeaderContent>
-                      <strong>{user.name || user.email}</strong>
+                      <strong>
+                        {chime.userData.name || chime.userData.email}
+                      </strong>
                       <span>{`${chime.timeFormatted} ago`}</span>
                     </HeaderContent>
                     <Content>
