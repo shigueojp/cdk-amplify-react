@@ -103,7 +103,9 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
    2. Run `git commit -am 'Pushing all amplify configurations files.'`
    3. Run `git checkout dev`
    4. Run `git checkout merge master`
-2. This file should be in both branches in order to run CI/CD with success.
+2. This file should be in **both** branches in order to run CI/CD with success.
+
+## Deploy CI/CD Process Using CDK
 
 **Edit env variables from CDK**
 
@@ -111,7 +113,6 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 2. Change the variables for your environment variables.
 ![CdkConfig](img/cdkEnv.png)
 
-## Deploy CI/CD Process Using CDK
 
 1. Run the command below using your github Token
    1. To get your gitHubToken, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html)
