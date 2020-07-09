@@ -163,8 +163,14 @@ Access your dev environment.
   ![BeforeFix](img/_beforeFix.png)
   ![AfterFix](img/_afterFix.png)
 
-3. Run `npm run start` and verify the changed made fixed the problem and commit & push.
-4. If everything went well, merge dev into master.
+3. Run `npm run start` and verify the changed made fixed the problem.
+4. If everything went well  commit & push.
+5. Change branch to master and merge it.
+```
+git checkout master
+git merge dev
+git push
+```
 
 ### Testing your resources in local development
 
