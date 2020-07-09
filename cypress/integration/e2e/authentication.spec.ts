@@ -36,6 +36,7 @@ describe('Authenticator:', () => {
     });
   });
 
+  // When a user is created in first time, you can apply the code below for testing purposes.
   // describe('Sign In with real data:', () => {
   //   it('allows a user to signin', () => {
   //     // Step 2: Take an action (Sign in)

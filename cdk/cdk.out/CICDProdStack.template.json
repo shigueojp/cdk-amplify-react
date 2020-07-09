@@ -249,6 +249,16 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
+                  "pipelineMasterApprovalManualApprovalCodePipelineActionRole7A807A32",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
                   "pipelineMasterBuildBuildMasterAodCodePipelineActionRoleDDD176D6",
                   "Arn"
                 ]
@@ -304,6 +314,30 @@
               }
             ],
             "Name": "Source"
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Approval",
+                  "Owner": "AWS",
+                  "Provider": "Manual",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "CustomData": "This deploy is scary, are u sure?!"
+                },
+                "Name": "Manual-Approval",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "pipelineMasterApprovalManualApprovalCodePipelineActionRole7A807A32",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              }
+            ],
+            "Name": "Approval"
           },
           {
             "Actions": [
@@ -391,6 +425,41 @@
       },
       "Metadata": {
         "aws:cdk:path": "CICDProdStack/pipelineMaster/Source/SourceMasterAod/WebhookResource"
+      }
+    },
+    "pipelineMasterApprovalManualApprovalCodePipelineActionRole7A807A32": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CICDProdStack/pipelineMaster/Approval/Manual-Approval/CodePipelineActionRole/Resource"
       }
     },
     "pipelineMasterBuildBuildMasterAodCodePipelineActionRoleDDD176D6": {

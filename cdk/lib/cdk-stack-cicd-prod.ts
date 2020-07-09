@@ -84,6 +84,18 @@ export class CICDProdStack extends cdk.Stack {
       ],
     });
 
+    // Approval for pipeline Master
+    pipelineMaster.addStage({
+      stageName: 'Approval',
+      actions: [
+        new codepipelineactions.ManualApprovalAction({
+          actionName: `Manual-Approval`,
+          additionalInformation: 'This deploy is scary, are u sure?!',
+          runOrder: 1,
+        }),
+      ],
+    });
+
     // Build Master
     pipelineMaster.addStage({
       stageName: 'Build',

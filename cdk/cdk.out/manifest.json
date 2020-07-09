@@ -1018,6 +1018,38 @@
             ]
           }
         ],
+        "/CICDProdStack/pipelineMaster/Approval/Manual-Approval/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "pipelineMasterApprovalManualApprovalCodePipelineActionRole7A807A32",
+            "trace": [
+              "new Role (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-iam/lib/role.ts:319:18)",
+              "Pipeline.getRoleForAction (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/pipeline.ts:540:20)",
+              "Pipeline._attachActionToPipeline (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/pipeline.ts:359:29)",
+              "Stage.attachActionToPipeline (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:141:27)",
+              "Stage.addAction (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:91:29)",
+              "new Stage (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:38:12)",
+              "Pipeline.addStage (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/pipeline.ts:302:19)",
+              "new CICDProdStack (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/lib/cdk-stack-cicd-prod.ts:88:20)",
+              "Object.<anonymous> (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/bin/cdk.ts:16:1)",
+              "Module._compile (internal/modules/cjs/loader.js:956:30)",
+              "Module.m._compile (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/ts-node/src/index.ts:858:23)",
+              "Module._extensions..js (internal/modules/cjs/loader.js:973:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/ts-node/src/index.ts:861:12)",
+              "Module.load (internal/modules/cjs/loader.js:812:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:724:14)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)",
+              "main (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/ts-node/src/bin.ts:227:14)",
+              "Object.<anonymous> (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/ts-node/src/bin.ts:513:3)",
+              "Module._compile (internal/modules/cjs/loader.js:956:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:973:10)",
+              "Module.load (internal/modules/cjs/loader.js:812:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:724:14)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:1025:10)",
+              "/usr/local/lib/node_modules/npm/node_modules/libnpx/index.js:268:14"
+            ]
+          }
+        ],
         "/CICDProdStack/pipelineMaster/Build/BuildMasterAod/CodePipelineActionRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1030,7 +1062,7 @@
               "Stage.addAction (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:91:29)",
               "new Stage (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:38:12)",
               "Pipeline.addStage (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/pipeline.ts:302:19)",
-              "new CICDProdStack (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/lib/cdk-stack-cicd-prod.ts:88:20)",
+              "new CICDProdStack (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/lib/cdk-stack-cicd-prod.ts:100:20)",
               "Object.<anonymous> (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/bin/cdk.ts:16:1)",
               "Module._compile (internal/modules/cjs/loader.js:956:30)",
               "Module.m._compile (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/ts-node/src/index.ts:858:23)",
@@ -1065,7 +1097,7 @@
               "Stage.addAction (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:91:29)",
               "new Stage (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/stage.ts:38:12)",
               "Pipeline.addStage (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/@aws-cdk/aws-codepipeline/lib/pipeline.ts:302:19)",
-              "new CICDProdStack (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/lib/cdk-stack-cicd-prod.ts:88:20)",
+              "new CICDProdStack (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/lib/cdk-stack-cicd-prod.ts:100:20)",
               "Object.<anonymous> (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/bin/cdk.ts:16:1)",
               "Module._compile (internal/modules/cjs/loader.js:956:30)",
               "Module.m._compile (/Users/awsvs/Projects/POC/CDK-react-typescript/cdk/node_modules/ts-node/src/index.ts:858:23)",

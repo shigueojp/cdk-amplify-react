@@ -124,7 +124,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 2. Configure your Access-Key and Secret-Key for dev/test environment.
    1. `aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test`
    2. `aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> -profile amplify-for-dev-test`
-   3. If success should appear in your terminal.
+   3. If success, the image below should appear in your terminal.
 
    ![SSMPutParamater](img/ssm_put_parameter.png)
 
@@ -137,9 +137,11 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 ### Testing CI/CD
 
-Change here, put some code commented and after remove comment and push
-1. Change any file without break the tests.
-2. Commit and push.
+A user tweeted and verified the distance from now, it not working correctly. Please, fix that.
+
+1. Try to tweet and verify the distance from now, it not working correctly.
+2. Go to pages/dashboard/index.tsx and uncomment 3 lines and erase the line 130.
+![BeforeFix](img/_beforeFix_.png)
 3. Verify if the changed was made in cloudfront.
 
 ### Testing your resources in local development
@@ -148,13 +150,14 @@ Change here, put some code commented and after remove comment and push
 2. Run `node_modules/.bin/cypress run` for E2E Test.
 
 ### Clean your resources
+>The S3 buckets should be deleted manually.
+
 1. Run `cdk destroy ProdAccStack --profile amplify-for-prod`
 2. Run `cdk destroy CICDDevStack --profile amplify-for-dev-test`
 3. Run `cdk destroy CICDProdStack --profile amplify-for-dev-test`
 
-
 ### Issues
 
-1. Removed E2E tests with cypress in codebuild because of perfomance and instability, sometimes work and sometimes doesn`t.
+1. Removed E2E tests with cypress in codebuild due to lack of perfomance and instability, sometimes work and sometimes doesn`t.
   1. You still can run `node_modules/.bin/cypress run` in your local.
 

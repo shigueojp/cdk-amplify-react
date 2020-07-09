@@ -21,7 +21,6 @@ import { onCreatePost } from '../../graphql/subscriptions';
 import { listPostsSortedByTimestamp, getUser } from '../../graphql/queries';
 import { ListPostsSortedByTimestampQuery, GetUserQuery } from '../../API';
 import profilePhoto from '../../assets/img/profile.jpg';
-import { useAuth } from '../../hooks/AuthContext';
 
 interface IPost {
   content: string;
@@ -42,10 +41,9 @@ interface IPost {
 const Dashboard: React.FC = () => {
   const [nextToken, setNextToken] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const { user } = useAuth();
   const [chimes, setChimes] = useState<IPost[]>([] as IPost[]);
 
-  const calcTimestampDiff = (timestamp: any) => {
+  const calcDistanceToNow = (timestamp: any) => {
     const result2 = fromUnixTime(timestamp / 1000);
     const result = formatDistanceToNow(result2, {
       includeSeconds: true,
@@ -103,7 +101,7 @@ const Dashboard: React.FC = () => {
               return {
                 ...item,
                 userData: await getPhotoFromS3(item?.owner as string),
-                timeFormatted: calcTimestampDiff(item?.timestamp as number),
+                timeFormatted: calcDistanceToNow(item?.timestamp as number),
               } as IPost;
             },
           ),
@@ -126,9 +124,10 @@ const Dashboard: React.FC = () => {
               userData: await getPhotoFromS3(
                 payload.value.data.onCreatePost?.owner as string,
               ),
-              timeFormatted: calcTimestampDiff(
-                payload.value.data.onCreatePost.timestamp as number,
-              ),
+              // timeFormatted: calcDistanceToNow(
+              //   payload.value.data.onCreatePost.timestamp as number,
+              // ),
+              timeFormatted: payload.value.data.onCreatePost.timestamp,
             };
             setChimes((prevState) => [chime, ...prevState]);
           } catch (e) {
