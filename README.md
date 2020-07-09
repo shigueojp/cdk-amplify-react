@@ -78,7 +78,7 @@ It`s using two **different** account simulating two AWS accounts: developer and 
 7. Save this access/secret key in a safe place.
 7. Sign out from AWS Console.
 
-If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/angular#option-1-watch-the-video-guide).
+If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/react#option-2-follow-the-instructions).
 
 
 ## Creating Amplify Environment
@@ -97,6 +97,7 @@ Create amplify environment: **prod**
     ![AmplifyProdProfile](img/amplifyProd.png)
 
 When done, verify if exists a file in **/amplify/team-provider.info.json**.
+
 1. Commit this file and merge master branch into dev.
    1. Run `git add .`
    2. Run `git commit -am 'Pushing all amplify configurations files.'`
@@ -106,8 +107,9 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 **Edit env variables from CDK**
 
-1. Copy env.ts.example to env.ts
+1. Rename cdk/config/env.ts.example to cdk/config/env.ts
 2. Change the variables for your environment variables.
+![CdkConfig](img/cdkEnv.png)
 
 ## Deploy CI/CD Process Using CDK
 
