@@ -125,7 +125,9 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
    1. `aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test`
    2. `aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> -profile amplify-for-dev-test`
    3. If success should appear in your terminal.
+
    ![SSMPutParamater](img/ssm_put_parameter.png)
+
 3. If, first time using CDK, Run `cd cdk && cdk bootstrap`
 4. For CI/CD for development/test environment:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
