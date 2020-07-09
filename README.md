@@ -6,7 +6,7 @@ This project was generated with:
  - [CDK](https://github.com/aws/aws-cdk) version 1.47.1.
 
 The frontend is using React with amplify react UI for Authentication.
-- it has unit test, integration test and UI test.
+- It has unit test, integration test and UI test.
 
 The backend is using Amplify with the following services:
 - S3 as Storage.
@@ -19,9 +19,9 @@ The CI/CD process is created through CDK using:
 
 # Story Case
 
-A customer using amplify requests cross-account CI/CD since their company have Developer AWS Account and Production AWS Account.
+A customer using Amplify requests cross-account CI/CD since their company have Developer AWS Account and Production AWS Account.
 
-Until the moment, amplify does not support cross-account as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
+Until the moment, Amplify does not support natively cross-account as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
 
 ## Solution
 
@@ -57,6 +57,7 @@ It`s using two **different** account simulating two AWS accounts: developer and 
 4. Create a user with **AdministratorAccess** to your account to provision AWS resources like AppSync, Cognito etc.
 5. Once the user is created, Amplify CLI requests you to provide the **accessKeyId** and the **secretAccessKey** to connect Amplify CLI with your newly created IAM user.
 6. Specify AWS Profile name to **amplify-for-dev-test**.
+
 ![AmplifyDevTestProfile](img/amplify_configure.png)
 7. Save this access/secret key in a safe place.
 7. Sign out from AWS Console.
