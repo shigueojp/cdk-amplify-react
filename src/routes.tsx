@@ -10,7 +10,7 @@ const Routes: React.FC = () => {
       <Switch>
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/profile" component={Profile} />
-        <Route exact component={Dashboard} />
+        <Route exact component={Profile} />
       </Switch>
     </AuthComponent>
   );

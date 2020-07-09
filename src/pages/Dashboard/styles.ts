@@ -132,14 +132,41 @@ export const Avatar = styled.div`
   }
 `;
 
-export const Content = styled.div`
+export const Teste = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+  flex: 1;
+`;
+
+export const HeaderContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    font-size: 12px;
+    line-height: 2px;
+    margin-top: 5px;
+    color: gray;
+  }
+
   strong {
     font-size: 16px;
     line-height: 20px;
     color: #ff9900;
     margin-top: 5px;
+  }
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  strong {
+    font-size: 16px;
+    line-height: 20px;
+    color: #ff9900;
   }
 `;

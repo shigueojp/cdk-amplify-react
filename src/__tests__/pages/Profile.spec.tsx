@@ -55,100 +55,82 @@ describe('Profile Page', () => {
     );
   });
 
-  // it('should just update the name', async () => {
-  //   const mockUpdateProfile = jest.spyOn(ProfileModel, 'updateProfile');
+  it('should just update the name', async () => {
+    const mockUpdateProfile = jest.spyOn(ProfileModel, 'updateProfile');
 
-  //   mockUpdateProfile.mockImplementation(() => {
-  //     return new Promise((resolve) => {
-  //       return resolve;
-  //     });
-  //   });
+    mockUpdateProfile.mockImplementation(() => {
+      return new Promise((resolve) => {
+        return resolve;
+      });
+    });
 
-  //   const { getByPlaceholderText, getByText } = render(<Profile />);
-  //   const nameField = getByPlaceholderText('Full Name');
-  //   const newpwdField = getByPlaceholderText('New Password');
-  //   const cnmpwdField = getByPlaceholderText('Confirm Password');
-  //   const btnSubmitField = getByText('Update Profile');
+    const { getByPlaceholderText, getByText } = render(<Profile />);
+    const nameField = getByPlaceholderText('Full Name');
+    const newpwdField = getByPlaceholderText('New Password');
+    const cnmpwdField = getByPlaceholderText('Confirm Password');
+    const btnSubmitField = getByText('Update Profile');
 
-  //   fireEvent.change(newpwdField, { target: { value: '' } });
-  //   fireEvent.change(cnmpwdField, { target: { value: '' } });
-  //   fireEvent.change(nameField, { target: { value: 'jhon.doe@aws.com' } });
-  //   fireEvent.click(btnSubmitField);
+    fireEvent.change(newpwdField, { target: { value: '' } });
+    fireEvent.change(cnmpwdField, { target: { value: '' } });
+    fireEvent.change(nameField, { target: { value: 'jhon.doe@aws.com' } });
+    fireEvent.click(btnSubmitField);
 
-  //   await waitFor(() => {
-  //     expect(mockUpdateProfile).toHaveBeenCalledWith(
-  //       expect.objectContaining({
-  //         name: 'jhon.doe@aws.com',
-  //       }),
-  //     );
-  //   });
-  // });
+    await waitFor(() => {
+      expect(mockUpdateProfile).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: 'jhon.doe@aws.com',
+        }),
+      );
+    });
+  });
 
-  // it('should change password', async () => {
-  //   const mockUpdateProfile = jest.spyOn(ProfileModel, 'updateProfile');
-  //   const mockChangeUserPassword = jest.spyOn(
-  //     ProfileModel,
-  //     'changeUserPassword',
-  //   );
+  it('should change password', async () => {
+    const mockUpdateProfile = jest.spyOn(ProfileModel, 'updateProfile');
+    const mockChangeUserPassword = jest.spyOn(
+      ProfileModel,
+      'changeUserPassword',
+    );
 
-  //   mockUpdateProfile.mockImplementation(() => {
-  //     console.log('AKVS');
-  //     return new Promise((resolve) => {
-  //       return resolve;
-  //     });
-  //   });
+    mockUpdateProfile.mockImplementation(() => {
+      return new Promise((resolve) => {
+        return resolve;
+      });
+    });
 
-  //   mockChangeUserPassword.mockImplementation(() => {
-  //     console.log('AGS');
-  //     return new Promise((resolve) => {
-  //       return resolve;
-  //     });
-  //   });
+    mockChangeUserPassword.mockImplementation(() => {
+      return new Promise((resolve) => {
+        return resolve;
+      });
+    });
 
-  //   // Mock Cognito Auth
-  //   const mockcurrentAuthenticatedUser = jest.spyOn(
-  //     Auth,
-  //     'currentAuthenticatedUser',
-  //   );
+    // Mock Cognito Auth
+    const mockcurrentAuthenticatedUser = jest.spyOn(
+      Auth,
+      'currentAuthenticatedUser',
+    );
 
-  //   mockcurrentAuthenticatedUser.mockImplementation(() => {
-  //     console.log('SHOULD BE HERE');
-  //     return Promise.resolve('user');
-  //   });
-  //   // jest.spyOn(Auth, 'changePassword').mockImplementation((data) => {
-  //   //   return Promise.resolve(data);
-  //   // });
+    mockcurrentAuthenticatedUser.mockImplementation(() => {
+      return Promise.resolve('user');
+    });
+    jest.spyOn(Auth, 'changePassword').mockImplementation((data) => {
+      return Promise.resolve(data);
+    });
 
-  //   const { getByPlaceholderText, getByText } = render(<Profile />);
-  //   const oldpwdField = getByPlaceholderText('Old Password');
-  //   const newpwdField = getByPlaceholderText('New Password');
-  //   const cnmpwdField = getByPlaceholderText('Confirm Password');
-  //   const btnSubmitField = getByText('Update Profile');
+    const { getByPlaceholderText, getByText } = render(<Profile />);
+    const oldpwdField = getByPlaceholderText('Old Password');
+    const newpwdField = getByPlaceholderText('New Password');
+    const cnmpwdField = getByPlaceholderText('Confirm Password');
+    const btnSubmitField = getByText('Update Profile');
 
-  //   fireEvent.change(oldpwdField, { target: { value: 'oldpassword' } });
-  //   fireEvent.change(newpwdField, { target: { value: '1234567' } });
-  //   fireEvent.change(cnmpwdField, { target: { value: '1234567' } });
+    fireEvent.change(oldpwdField, { target: { value: 'oldpassword' } });
+    fireEvent.change(newpwdField, { target: { value: '1234567' } });
+    fireEvent.change(cnmpwdField, { target: { value: '1234567' } });
 
-  //   fireEvent.click(btnSubmitField);
+    fireEvent.click(btnSubmitField);
 
-  //   await waitFor(() => {
-  //     expect(mockUpdateProfile).toBeCalled();
-  //     // expect(mockChangeUserPassword).toBeCalled();
-  //     // expect(mockAddToast).toBeCalledWith(
-  //     //   expect.objectContaining({
-  //     //     type: 'success',
-  //     //   }),
-  //     // );
-  //   });
-
-  //   await waitFor(() => {
-  //     // expect(mockUpdateProfile).toBeCalled();
-  //     expect(mockChangeUserPassword).toBeCalled();
-  //     // expect(mockAddToast).toBeCalledWith(
-  //     //   expect.objectContaining({
-  //     //     type: 'success',
-  //     //   }),
-  //     // );
-  //   });
-  // });
+    await waitFor(() => {
+      expect(mockUpdateProfile).toBeCalled();
+      expect(mockChangeUserPassword).toBeCalled();
+    });
+  });
 });

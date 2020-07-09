@@ -64,7 +64,6 @@ const Profile: React.FC = () => {
         ...user,
         name: data.name,
       };
-      console.log('AOPSKDPAODKS');
       setUserState(userProfile);
       localStorage.setItem('@AuthUser', JSON.stringify(userProfile));
 
@@ -101,11 +100,8 @@ const Profile: React.FC = () => {
         });
       } else {
         try {
-          console.log('ADASDdsadasASD');
           await changeUserPassword(data);
-          console.log('ADASDASD22');
           await updateUserDynamo(data);
-          console.log('ADASDASD');
           addToast({
             title: 'Success',
             description: 'Password changed with Success.',
