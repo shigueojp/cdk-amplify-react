@@ -126,7 +126,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
     aws secretsmanager create-secret \
     --name GitHubToken \
     --secret-string <YourGitHubTokenID> \
-    --region us-east-1
+    --region us-east-1 --profile amplify-for-dev-test
     ```
 2. Configure your Access-Key and Secret-Key for dev/test environment.
    ```
