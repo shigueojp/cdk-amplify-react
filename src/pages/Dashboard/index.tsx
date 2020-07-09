@@ -124,10 +124,9 @@ const Dashboard: React.FC = () => {
               userData: await getPhotoFromS3(
                 payload.value.data.onCreatePost?.owner as string,
               ),
-              // timeFormatted: calcDistanceToNow(
-              //   payload.value.data.onCreatePost.timestamp as number,
-              // ),
-              timeFormatted: payload.value.data.onCreatePost.timestamp,
+              timeFormatted: calcDistanceToNow(
+                payload.value.data.onCreatePost.timestamp as number,
+              ),
             };
             setChimes((prevState) => [chime, ...prevState]);
           } catch (e) {

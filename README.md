@@ -137,12 +137,17 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 ### Testing CI/CD
 
-A user tweeted and verified the distance from now, it not working correctly. Please, fix that.
+A user tweeted and verified the distance from now is not working correctly. Please, find the error and fix that.
 
-1. Try to tweet and verify the distance from now, it not working correctly.
-2. Go to pages/dashboard/index.tsx and uncomment 3 lines and erase the line 130.
-![BeforeFix](img/_beforeFix_.png)
-3. Verify if the changed was made in cloudfront.
+Access your dev environment.
+1. Run `git checkout dev` and `amplify env checkout dev`
+2. Try to figure it out the bug.
+  3. Go to pages/dashboard/index.tsx and uncomment 3 lines and erase the line 130.
+  ![BeforeFix](img/_beforeFix.png)
+  ![AfterFix](img/_afterFix.png)
+
+3. Run `npm run start` and verify the changed made fixed the problem and commit & push.
+4. If everything went well, merge dev into master.
 
 ### Testing your resources in local development
 
