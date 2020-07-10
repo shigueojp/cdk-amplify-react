@@ -34,7 +34,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-fourteen",
     "eject": "react-scripts eject",
-    "test:ci": "react-scripts test --env=jsdom-fourteen --no-watch --watch=false --watchAll=false --no-watchman --forceExit --testResultsProcessor ./node_modules/jest-junit"
+    "test:ci": "react-scripts test --env=jsdom-fourteen --no-watch --watch=false --watchAll=false --no-watchman --forceExit --testResultsProcessor ./node_modules/jest-junit",
+    "build:prod": "sh amplifyPushCopy.sh -e prod -p amplify-for-prod",
+    "build:dev": "sh amplifyPushCopy.sh -e dev -p amplify-for-dev-test"
   },
   "jest": {
     "collectCoverageFrom": [
