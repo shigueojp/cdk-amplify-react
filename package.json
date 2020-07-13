@@ -27,6 +27,7 @@
     "react-spring": "^8.0.27",
     "styled-components": "^5.1.1",
     "typescript": "~3.7.2",
+    "use-intersection": "^0.2.1",
     "uuidv4": "^6.1.1"
   },
   "scripts": {
@@ -35,8 +36,8 @@
     "test": "react-scripts test --env=jsdom-fourteen",
     "eject": "react-scripts eject",
     "test:ci": "react-scripts test --env=jsdom-fourteen --no-watch --watch=false --watchAll=false --no-watchman --forceExit --testResultsProcessor ./node_modules/jest-junit",
-    "build:prod": "sh amplifyPushCopy.sh -e prod -p amplify-for-prod",
-    "build:dev": "sh amplifyPushCopy.sh -e dev -p amplify-for-dev-test"
+    "push:prod": "sh amplifyPushCopy.sh -e prod -p amplify-for-prod",
+    "push:dev": "sh amplifyPushCopy.sh -e dev -p amplify-for-dev-test"
   },
   "jest": {
     "collectCoverageFrom": [

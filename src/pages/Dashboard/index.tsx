@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Form } from '@unform/web';
-import { API, graphqlOperation, Storage } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
 import Observable from 'zen-observable';
 import { FaSpinner } from 'react-icons/fa';
 import { formatDistanceToNow, fromUnixTime } from 'date-fns';
@@ -13,14 +13,16 @@ import {
   Content,
   HeaderContent,
   Teste,
+  InfiniteScroll,
 } from './styles';
 import Input from '../../components/Input/index';
 import Button from '../../components/Button';
 import { createPost } from '../../graphql/mutations';
 import { onCreatePost } from '../../graphql/subscriptions';
-import { listPostsSortedByTimestamp, getUser } from '../../graphql/queries';
-import { ListPostsSortedByTimestampQuery, GetUserQuery } from '../../API';
+import { listPostsSortedByTimestamp } from '../../graphql/queries';
+import { ListPostsSortedByTimestampQuery } from '../../API';
 import profilePhoto from '../../assets/img/profile.jpg';
+import { getDataChimeFromUser } from '../../models/User';
 
 interface IPost {
   content: string;
@@ -39,9 +41,13 @@ interface IPost {
 }
 
 const Dashboard: React.FC = () => {
-  const [nextToken, setNextToken] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const [nextToken, setNextToken] = useState<string | null>('');
+  const [isLoadingChime, setIsLoadingChime] = useState(true);
+  const [isSendingPost, setIsSendingPost] = useState(false);
   const [chimes, setChimes] = useState<IPost[]>([] as IPost[]);
+  const [scrollRadio, setScrollRadio] = useState(0);
+
+  const scrollObserve = useRef<HTMLDivElement>(null);
 
   const calcDistanceToNow = (timestamp: any) => {
     const result2 = fromUnixTime(timestamp / 1000);
@@ -52,67 +58,58 @@ const Dashboard: React.FC = () => {
     return result;
   };
 
-  const getPhotoFromS3 = async (ownerID: string): Promise<object> => {
+  const intersectionObserver = new IntersectionObserver((entries) => {
+    const radio = entries[0].intersectionRatio;
+    setScrollRadio(radio);
+  });
+
+  const handleGetPosts = useCallback(async (nextToken = null) => {
     const res = (await API.graphql(
-      graphqlOperation(getUser, {
-        id: ownerID,
+      graphqlOperation(listPostsSortedByTimestamp, {
+        type: 'post',
+        sortDirection: 'DESC',
+        limit: 15,
+        nextToken,
       }),
-    )) as {
-      data: GetUserQuery;
-    };
+    )) as { data: ListPostsSortedByTimestampQuery };
 
-    if (res?.data?.getUser) {
-      if (res?.data?.getUser?.profilePhoto) {
-        const profileURL = await Storage.get(res.data.getUser.profilePhoto.key);
-        return {
-          email: res.data.getUser.email,
-          name: res.data.getUser.name,
-          profileURL: profileURL.toString(),
-        };
-      }
+    if (res.data.listPostsSortedByTimestamp)
+      setNextToken(res?.data?.listPostsSortedByTimestamp?.nextToken);
 
-      return { email: res.data.getUser.email, name: res.data.getUser.name };
+    if (res.data?.listPostsSortedByTimestamp?.items) {
+      // Para cada POST, pegar o owner, comparar com o User e instanciar a imagem do S3, retornando no POST
+      // Lição de vida com Promise All e Alias, escrever aqui
+      const chimesFormatted = await Promise.all(
+        res.data.listPostsSortedByTimestamp.items.map(
+          async (item): Promise<IPost> => {
+            return {
+              ...item,
+              userData: await getDataChimeFromUser(item?.owner as string),
+              timeFormatted: calcDistanceToNow(item?.timestamp as number),
+            } as IPost;
+          },
+        ),
+      );
+      return chimesFormatted;
     }
 
-    return {};
-  };
+    return [] as IPost[];
+  }, []);
+
+  const handleGetAdditionalPosts = useCallback(async () => {
+    if (nextToken === null) return; // Reached the last page
+    const additionalChimes = await handleGetPosts(nextToken);
+
+    setChimes((prevState) => [...prevState, ...additionalChimes]);
+  }, [handleGetPosts, nextToken]);
 
   useEffect(() => {
     let unsubscribe;
-    async function handleGetPosts(type: string, nextToken = null) {
-      const res = (await API.graphql(
-        graphqlOperation(listPostsSortedByTimestamp, {
-          type: 'post',
-          sortDirection: 'DESC',
-          limit: 20, // default = 10
-          nextToken,
-        }),
-      )) as { data: ListPostsSortedByTimestampQuery };
 
-      if (res.data?.listPostsSortedByTimestamp?.nextToken)
-        setNextToken(res.data?.listPostsSortedByTimestamp?.nextToken);
-
-      if (res.data?.listPostsSortedByTimestamp?.items) {
-        // Para cada POST, pegar o owner, comparar com o User e instanciar a imagem do S3, retornando no POST
-        // Lição de vida com Promise All e Alias, escrever aqui
-        const chimesFormatted = await Promise.all(
-          res.data.listPostsSortedByTimestamp.items.map(
-            async (item): Promise<IPost> => {
-              return {
-                ...item,
-                userData: await getPhotoFromS3(item?.owner as string),
-                timeFormatted: calcDistanceToNow(item?.timestamp as number),
-              } as IPost;
-            },
-          ),
-        );
-        setChimes(await chimesFormatted);
-      }
-      setIsLoading(false);
-    }
-
-    handleGetPosts('post');
-
+    handleGetPosts().then((result) => {
+      setChimes(result);
+      setIsLoadingChime(false);
+    });
     // Here comes part 2
     const subscription = API.graphql(graphqlOperation(onCreatePost));
     if (subscription instanceof Observable) {
@@ -121,7 +118,7 @@ const Dashboard: React.FC = () => {
           try {
             const chime = {
               ...payload.value.data.onCreatePost,
-              userData: await getPhotoFromS3(
+              userData: await getDataChimeFromUser(
                 payload.value.data.onCreatePost?.owner as string,
               ),
               // timeFormatted: calcDistanceToNow(
@@ -141,9 +138,26 @@ const Dashboard: React.FC = () => {
     }
 
     return unsubscribe;
-  }, []);
+  }, [handleGetPosts]);
+
+  useEffect(() => {
+    if (scrollObserve.current) {
+      intersectionObserver.observe(scrollObserve.current);
+    }
+
+    return () => {
+      intersectionObserver.disconnect();
+    };
+  }, [intersectionObserver]);
+
+  useEffect(() => {
+    if (scrollRadio === 1) {
+      handleGetAdditionalPosts();
+    }
+  }, [handleGetAdditionalPosts, scrollRadio]);
 
   const handleSendPost = useCallback(async (data: { post: string }) => {
+    setIsSendingPost(true);
     const res = (await API.graphql(
       graphqlOperation(createPost, {
         input: {
@@ -157,47 +171,52 @@ const Dashboard: React.FC = () => {
         createPost: IPost;
       };
     };
+
+    if (res) setIsSendingPost(false);
   }, []);
 
-  // const handleGetAdditionalPosts = () => {
-  //   if (nextToken === null) return; // Reached the last page
-  //   handleGetPosts('teste', nextToken);
-  // };
   return (
-    <Container>
+    <Container isLoading>
       <LeftSide>
         <Form onSubmit={handleSendPost}>
           <Input name="post" placeholder="Enter your post" />
-          <Button type="submit">Tweet</Button>
+          <Button type="submit" loading={isSendingPost}>
+            Tweet
+          </Button>
         </Form>
       </LeftSide>
-      <RightSide isLoading>
-        {isLoading ? (
+      <RightSide>
+        {isLoadingChime ? (
           <FaSpinner color="#FFF" size={14} />
         ) : (
-            <ChimeList>
-              {chimes.map((chime) => (
-                <li key={chime.id}>
-                  <Avatar>
-                    <img
-                      src={chime.userData.profileURL || profilePhoto}
-                      alt="Profile"
-                    />
-                  </Avatar>
-                  <Teste>
-                    <HeaderContent>
-                      <strong>
-                        {chime.userData.name || chime.userData.email}
-                      </strong>
-                      <span>{`${chime.timeFormatted} ago`}</span>
-                    </HeaderContent>
-                    <Content>
-                      <span>{chime.content}</span>
-                    </Content>
-                  </Teste>
-                </li>
-              ))}
-            </ChimeList>
+            <Teste>
+              <ChimeList>
+                {chimes.map((chime) => (
+                  <li key={chime.id}>
+                    <Avatar>
+                      <img
+                        src={chime.userData.profileURL || profilePhoto}
+                        alt="Profile"
+                      />
+                    </Avatar>
+                    <Teste>
+                      <HeaderContent>
+                        <strong>
+                          {chime.userData.name || chime.userData.email}
+                        </strong>
+                        <span>{`${chime.timeFormatted} ago`}</span>
+                      </HeaderContent>
+                      <Content>
+                        <span>{chime.content}</span>
+                      </Content>
+                    </Teste>
+                  </li>
+                ))}
+              </ChimeList>
+              <InfiniteScroll ref={scrollObserve}>
+                <FaSpinner color="#FFF" size={14} />
+              </InfiniteScroll>
+            </Teste>
           )}
       </RightSide>
     </Container>

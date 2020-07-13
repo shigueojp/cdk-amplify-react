@@ -11,7 +11,7 @@ import { IUser, useAuth } from '../../hooks/AuthContext';
 import { useToast } from '../../hooks/ToastContext';
 import profilePhoto from '../../assets/img/profile.jpg';
 import awsExports from '../../aws-exports.js';
-import { updateProfile, changeUserPassword } from '../../models/Profile';
+import { updateProfile, changeUserPassword } from '../../models/User';
 
 const Profile: React.FC = () => {
   const { user, setUserState } = useAuth();

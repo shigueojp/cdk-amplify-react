@@ -10,16 +10,29 @@ const rotate = keyframes`
   }
 `;
 
-export const Container = styled.div`
+interface IContainerProps {
+  isLoading: boolean;
+}
+
+export const Container = styled.div<IContainerProps>`
   max-width: 1080px;
   margin: 20px auto;
   display: flex;
+
+  ${(props) =>
+    props.isLoading &&
+    css`
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
+    `};
 `;
 
 export const LeftSide = styled.div`
-  max-width: 500px;
+  max-width: 400px;
   border-right: 1px solid #fff;
   margin-right: 10px;
+  flex: 1;
   form {
     display: flex;
     margin: 10px;
@@ -29,30 +42,21 @@ export const LeftSide = styled.div`
       margin-left: 10px;
     }
 
-    input {
+    div {
       flex: 1;
+      input {
+      }
     }
   }
 `;
 
-interface IRightSideProps {
-  isLoading: boolean;
-}
-
-export const RightSide = styled.div<IRightSideProps>`
+export const RightSide = styled.div`
   max-width: 580px;
   margin: 0, auto;
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
-  ${(props) =>
-    props.isLoading &&
-    css`
-      svg {
-        animation: ${rotate} 2s linear infinite;
-      }
-    `};
 `;
 
 export const ChimeList = styled.ul`
@@ -169,4 +173,10 @@ export const Content = styled.div`
     line-height: 20px;
     color: #ff9900;
   }
+`;
+
+export const InfiniteScroll = styled.div`
+  margin-top: 30px;
+  justify-content: center;
+  display: flex;
 `;

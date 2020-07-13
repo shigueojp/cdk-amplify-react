@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { Auth } from 'aws-amplify';
 import Profile from '../../pages/Profile';
-import * as ProfileModel from '../../models/Profile';
+import * as UserModel from '../../models/User';
 
 jest.mock('react-router-dom', () => {
   return {
@@ -56,7 +56,7 @@ describe('Profile Page', () => {
   });
 
   it('should just update the name', async () => {
-    const mockUpdateProfile = jest.spyOn(ProfileModel, 'updateProfile');
+    const mockUpdateProfile = jest.spyOn(UserModel, 'updateProfile');
 
     mockUpdateProfile.mockImplementation(() => {
       return new Promise((resolve) => {
@@ -85,11 +85,8 @@ describe('Profile Page', () => {
   });
 
   it('should change password', async () => {
-    const mockUpdateProfile = jest.spyOn(ProfileModel, 'updateProfile');
-    const mockChangeUserPassword = jest.spyOn(
-      ProfileModel,
-      'changeUserPassword',
-    );
+    const mockUpdateProfile = jest.spyOn(UserModel, 'updateProfile');
+    const mockChangeUserPassword = jest.spyOn(UserModel, 'changeUserPassword');
 
     mockUpdateProfile.mockImplementation(() => {
       return new Promise((resolve) => {
