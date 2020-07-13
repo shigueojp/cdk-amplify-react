@@ -37,7 +37,8 @@
     "eject": "react-scripts eject",
     "test:ci": "react-scripts test --env=jsdom-fourteen --no-watch --watch=false --watchAll=false --no-watchman --forceExit --testResultsProcessor ./node_modules/jest-junit",
     "push:prod": "sh amplifyPushCopy.sh -e prod -p amplify-for-prod",
-    "push:dev": "sh amplifyPushCopy.sh -e dev -p amplify-for-dev-test"
+    "push:dev": "sh amplifyPushCopy.sh -e dev -p amplify-for-dev-test",
+    "deploy:dev": "cd cdk && cdk deploy CICDDevStack --profile amplify-for-dev-test"
   },
   "jest": {
     "collectCoverageFrom": [
