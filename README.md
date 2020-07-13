@@ -64,6 +64,8 @@ It`s using two **different** account simulating two AWS accounts: developer and 
 7. Save this access/secret key in a safe place.
 7. Sign out from AWS Console.
 
+If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/react#option-2-follow-the-instructions).
+
 ---
 
 **Simulating Production AWS Account**
