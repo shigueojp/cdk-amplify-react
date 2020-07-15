@@ -89,19 +89,31 @@ If you need more information, follow the [Amplify Documentation](https://docs.am
 ## Creating Amplify Environment
 
 Create amplify environment: **dev**
+
 1. Run `npm install` to install all the packages needed.
-2. Run `amplify init` and follow the instructions according to your environment.
-3. Choose **dev** for dev environment.
-4. Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
+2. Run `npm run push:dev`, it will execute a script for pushing all the amplify services using **amplify-for-dev-test** AWS Profile with **dev** environment.
+
+Under the hood, the script will execute the commands below:
+
+2. Run `npm install` to install all the packages needed.
+3. Run `amplify init` and follow the instructions according to your environment.
+4. Choose **dev** for dev environment.
+5. Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
 ![AmplifyDevTestProfile](img/amplifyDev.png)
 5. Run `amplify push` to push all the services to the cloud.
 
 Create amplify environment: **prod**
-1. Run `amplify init` and follow the instructions according to your environment.
-2. Choose **prod** for production environment.
-3. Amplify requests for an AWS Profile. (Answer Y, choose the prod AWS profile - **amplify-for-prod**).
+
+1. Run `npm install` to install all the packages needed.
+2. Run `npm run push:dev`, it will execute a script for pushing all the amplify services using **amplify-for-prod** AWS Profile with **prod** environment.
+
+Under the hood, the script will execute the commands below:
+
+3. Run `amplify init` and follow the instructions according to your environment.
+4. Choose **prod** for production environment.
+5. Amplify requests for an AWS Profile. (Answer Y, choose the prod AWS profile - **amplify-for-prod**).
     ![AmplifyProdProfile](img/amplifyProd.png)
-4. Run `amplify push` to push all the services to the cloud.
+6. Run `amplify push` to push all the services to the cloud.
 
 When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
@@ -114,8 +126,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 ## Running in your local development
 
 1. Run `amplify env checkout dev`
-2. Run `amplify push` and create all the resources.
-3. Run `npm run start` and open http://localhost:3000
+2. Run `npm run start` and open http://localhost:3000
 
 ## Deploy CI/CD Process Using CDK
 
