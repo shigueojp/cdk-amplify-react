@@ -143,7 +143,6 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
   ```
 ![CdkConfig](img/cdkEnv.png)
 
-
 1. Run the command below using your **GitHub Token**
    1. To get your GitHub Token, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html).
    ```
