@@ -85,7 +85,6 @@ If you need more information, follow the [Amplify Documentation](https://docs.am
 
 If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/react#option-2-follow-the-instructions).
 
-
 ## Creating Amplify Environment
 
 Create amplify environment: **dev**
