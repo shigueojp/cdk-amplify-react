@@ -17,17 +17,17 @@ The backend is using Amplify with the following services:
 The CI/CD process is created through CDK using:
 - Github as Source, Codebuild, Codepipeline, S3 and CloudFront.
 
-# Story Case
+## Story Case
 
-A customer using Amplify requests cross-account CI/CD since their company have Developer AWS Account and Production AWS Account.
+A customer using Amplify needs across-account CI/CD between two AWS Accounts due to their company requirements and compliance. This customer have Developer AWS Account and Production AWS Account.
 
 Until the moment, Amplify does not support natively cross-account as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
 
-## Solution
+### Solution
 
 Create a custom CI/CD through Codepipeline using CDK.
 
-It`s using two **different** account simulating two AWS accounts: developer and production.
+It uses two **different** accounts simulating two AWS accounts: developer and production.
 - Developer AWS Account is related to dev/test branches.
 - Production AWS Account is related to master branch.
 
@@ -75,11 +75,11 @@ If you need more information, follow the [Amplify Documentation](https://docs.am
    2. Specify the username of IAM user.
 3. Click in the link and register a new IAM user.
 4. Create a user with **AdministratorAccess** to your account to provision AWS resources like AppSync, Cognito etc.
-5. Once the user is created, Amplify CLI requests you to provide the **accessKeyId** and the **secretAccessKey** to connect Amplify CLI with your newly created IAM user.
-6. Specify AWS Profile name to **amplify-for-prod**.
+5. Save your credentials in a safe place.
+6. Once the user is created, Amplify CLI requests you to provide the **accessKeyId** and the **secretAccessKey** to connect Amplify CLI with your newly created IAM user.
+7. Specify AWS Profile name to **amplify-for-prod**.
 ![Amplify Configure](img/amplify_configure_prod.png)
-7. Save this access/secret key in a safe place.
-7. Sign out from AWS Console.
+1. Sign out from AWS Console.
 
 If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/react#option-2-follow-the-instructions).
 
@@ -105,7 +105,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
    1. Run `git add .`
    3. Run `git checkout -b dev`
    4. Run `git commit -am 'Pushing all amplify configurations files.'`
-2. This file should be in **both** branches in order to run CI/CD with success.
+2. This file should be in **both** branches in order to have a CI/CD with success.
 
 ## Running in your local development
 
@@ -188,6 +188,6 @@ git push
 
 ### Issues
 
-1. Removed E2E tests with cypress in codebuild due to lack of perfomance and instability, sometimes work and sometimes doesn`t.
+1. Removed E2E tests with cypress in codebuild due to lack of perfomance and instability.
   1. You still can run `node_modules/.bin/cypress run` in your local.
 
