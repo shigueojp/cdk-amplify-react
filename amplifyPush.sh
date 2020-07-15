@@ -36,6 +36,7 @@ init_env () {
 }
 
 ENV=""
+PROFILE="dev"
 IS_SIMPLE=false
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -46,8 +47,8 @@ while [[ $# -gt 0 ]]
         ENV=$2
         shift
         ;;
-        -r|--region)
-        REGION=$2
+        -p|--profile)
+        PROFILE=$2
         shift
         ;;
         -s|--simple)
@@ -75,14 +76,15 @@ fi
 
 # strip slashes, limit to 10 chars
 ENV=$(echo ${ENV} | sed 's;\\;;g' | sed 's;\/;;g' | cut -c -10)
-
+# strip slashes, limit to 20 chars
+PROFILE=$(echo ${PROFILE} | sed 's;\\;;g' | sed 's;\/;;g' | cut -c -20)
 # Check valid environment name
 if [[ -z ${ENV} || "${ENV}" =~ [^a-zA-Z0-9\-]+ ]] ; then help_output ; fi
 
 AWSCONFIG="{\
 \"configLevel\":\"project\",\
 \"useProfile\":true,\
-\"profileName\":\"default\",\
+\"profileName\":\"${PROFILE}\",\
 \"AmplifyAppId\":\"${AWS_APP_ID}\"\
 }"
 AMPLIFY="{\
@@ -100,6 +102,7 @@ CODEGEN="{\
 # Handle old or new config file based on simple flag
 if [[ ${IS_SIMPLE} ]];
 then
+    echo "# Start initializing Amplify environment: ${ENV} using profile ${PROFILE}"
     echo "# Getting Amplify CLI Cloud-Formation stack info from environment cache"
     # export STACKINFO="$(envCache --get stackInfo)"
     init_env ${ENV} ${AMPLIFY} ${PROVIDERS} ${CODEGEN} ${AWSCONFIG}

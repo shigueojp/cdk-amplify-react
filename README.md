@@ -94,19 +94,21 @@ Create amplify environment: **dev**
 3. Choose **dev** for dev environment.
 4. Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
 ![AmplifyDevTestProfile](img/amplifyDev.png)
+5. Run `amplify push` to push all the services to the cloud.
 
 Create amplify environment: **prod**
 1. Run `amplify init` and follow the instructions according to your environment.
 2. Choose **prod** for production environment.
 3. Amplify requests for an AWS Profile. (Answer Y, choose the prod AWS profile - **amplify-for-prod**).
     ![AmplifyProdProfile](img/amplifyProd.png)
+4. Run `amplify push` to push all the services to the cloud.
 
 When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
-1. Commit this file and merge master branch into dev.
+1. Commit this file create a dev branch.
    1. Run `git add .`
-   3. Run `git checkout -b dev`
-   4. Run `git commit -am 'Pushing all amplify configurations files.'`
+   2. Run `git checkout -b dev`
+   3. Run `git commit -am 'Pushing all amplify configurations files.'`
 2. This file should be in **both** branches in order to have a CI/CD with success.
 
 ## Running in your local development
