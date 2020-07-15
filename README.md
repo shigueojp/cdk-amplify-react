@@ -197,7 +197,6 @@ git push
 ```
 
 ### Testing your resources in local development
-
 1. Run `npm run test` for Unit Test and Integration Test.
 2. Run `node_modules/.bin/cypress run` for E2E Test.
 
