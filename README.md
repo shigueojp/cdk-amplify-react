@@ -95,7 +95,6 @@ Create amplify environment: **dev**
 
 Under the hood, the script will execute the commands below:
 
-2. Run `npm install` to install all the packages needed.
 3. Run `amplify init` and follow the instructions according to your environment.
 4. Choose **dev** for dev environment.
 5. Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
@@ -119,20 +118,24 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 1. Commit this file create a dev branch.
    1. Run `git add .`
-   2. Run `git checkout -b dev`
-   3. Run `git commit -am 'Pushing all amplify configurations files.'`
+   2. Run `git commit -am 'Pushing all amplify configurations files.'`
+   3. Run `git push --set-upstream origin master` `
+   4. Run `git checkout -b dev`
+   5. Run `git push --set-upstream origin dev`
+
 2. This file should be in **both** branches in order to have a CI/CD with success.
 
 ## Running in your local development
 
-1. Run `amplify env checkout dev`
-2. Run `npm run start` and open http://localhost:3000
+1. Run `git checkout dev` to access your dev branch.
+2. Run `amplify env checkout dev` to use amplify services for dev environment.
+3. Run `npm run start` and open http://localhost:3000.
 
 ## Deploy CI/CD Process Using CDK
 
 **Edit env variables from CDK**
 
-1. Rename cdk/config/env.ts.example to cdk/config/env.ts
+1. Rename `cdk/config/env.ts.example` to `cdk/config/env.ts`
 2. Change the variables for your environment variables.
 - To get the Account Number leveraging AWS CLI.
   ```
@@ -142,8 +145,8 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 ![CdkConfig](img/cdkEnv.png)
 
 
-1. Run the command below using your github Token
-   1. To get your gitHubToken, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html)
+1. Run the command below using your **GitHub Token**
+   1. To get your GitHub Token, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html).
    ```
     aws secretsmanager create-secret \
     --name GitHubToken \
@@ -159,29 +162,36 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
    ![SSMPutParamater](img/ssm_put_parameter.png)
 
-3. If, first time using CDK, Run `cd cdk && cdk bootstrap`
-4. Run `npm install` inside cdk folder.
+**Deploying with CDK**
 
-For CI/CD for development/test environment:
+1. Run `npm install` inside cdk folder.
+2. If, first time using CDK, run `cd cdk && cdk bootstrap`
+
+
+For CI/CD for development/test environment in cdk folder:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
 
-For CI/CD Production environment:
+When the deploy finish, it`s going to trigger the pipeline and in a few minutes, you can check the endpoint created by cloudfront.
+
+
+For CI/CD Production environment cdk folder:
   2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
   3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
 
-### Testing CI/CD
+## Testing CI/CD
 
 A user tweeted and verified the distance from now is not working correctly. Please, find the error and fix that.
 
 Access your dev environment.
-1. Run `git checkout dev` and `amplify env checkout dev`
+1. Run `git checkout dev` and `amplify env checkout dev`.
 2. Try to figure it out the bug.
   3. Go to pages/dashboard/index.tsx and uncomment 3 lines and erase the line 130.
   ![BeforeFix](img/_beforeFix.png)
   ![AfterFix](img/_afterFix.png)
 
 3. Run `npm run start` and verify the changed made fixed the problem.
-4. If everything went well  commit & push.
+4. If everything went well - commit & push.
+5. The pipeline from dev environment will trigger. When finished, access the cloudfront DNS and see the change.
 5. Change branch to master and merge it.
 ```
 git checkout master
