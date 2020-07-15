@@ -195,6 +195,7 @@ git checkout master
 git merge dev
 git push
 ```
+5. The pipeline from production environment will trigger. When finished, access the cloudfront DNS and see the change.
 
 ### Testing your resources in local development
 1. Run `npm run test` for Unit Test and Integration Test.
