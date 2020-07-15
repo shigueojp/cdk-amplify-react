@@ -168,11 +168,14 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 For CI/CD for development/test environment in cdk folder:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
 
-When the deploy finish, it`s going to trigger the pipeline and in a few minutes, you can check the endpoint created by cloudfront.
+When the CDK deploy finish, it`s going to trigger the pipeline and in a few minutes, you can check the endpoint created by cloudfront.
 
 For CI/CD Production environment cdk folder:
   2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
   3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
+
+
+when the CDK deploy finish, it`s going to trigger the pipeline, for production deployment, it is necessary to accept the manual approval in CodePipeline in order to continue.
 
 ## Testing CI/CD
 
@@ -194,7 +197,8 @@ git checkout master
 git merge dev
 git push
 ```
-5. The pipeline from production environment will trigger. When finished, access the cloudfront DNS and see the change.
+5. The pipeline from production environment will trigger.
+6. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
 
 ### Testing your resources in local development
 1. Run `npm run test` for Unit Test and Integration Test.
