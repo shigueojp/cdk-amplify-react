@@ -56,13 +56,13 @@ It uses two **different** accounts simulating two AWS accounts: developer and pr
    2. Specify the username of IAM user.
 3. Click in the link and register a new IAM user.
 4. Create a user with **AdministratorAccess** to your account to provision AWS resources like AppSync, Cognito etc.
-5. Once the user is created, Amplify CLI requests you to provide the **accessKeyId** and the **secretAccessKey** to connect Amplify CLI with your newly created IAM user.
-6. Specify AWS Profile name to **amplify-for-dev-test**.
+5. Save your credentials in a safe place.
+6. Once the user is created, Amplify CLI requests you to provide the **accessKeyId** and the **secretAccessKey** to connect Amplify CLI with your newly created IAM user.
+7. Specify AWS Profile name to **amplify-for-dev-test**.
 
 ![AmplifyDevTestProfile](img/amplify_configure.png)
 
-7. Save this access/secret key in a safe place.
-7. Sign out from AWS Console.
+1. Sign out from AWS Console.
 
 If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/react#option-2-follow-the-instructions).
 
@@ -78,7 +78,9 @@ If you need more information, follow the [Amplify Documentation](https://docs.am
 5. Save your credentials in a safe place.
 6. Once the user is created, Amplify CLI requests you to provide the **accessKeyId** and the **secretAccessKey** to connect Amplify CLI with your newly created IAM user.
 7. Specify AWS Profile name to **amplify-for-prod**.
+
 ![Amplify Configure](img/amplify_configure_prod.png)
+
 1. Sign out from AWS Console.
 
 If you need more information, follow the [Amplify Documentation](https://docs.amplify.aws/start/getting-started/installation/q/integration/react#option-2-follow-the-instructions).
