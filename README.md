@@ -167,12 +167,10 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 1. Run `npm install` inside cdk folder.
 2. If, first time using CDK, run `cd cdk && cdk bootstrap`
 
-
 For CI/CD for development/test environment in cdk folder:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
 
 When the deploy finish, it`s going to trigger the pipeline and in a few minutes, you can check the endpoint created by cloudfront.
-
 
 For CI/CD Production environment cdk folder:
   2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
