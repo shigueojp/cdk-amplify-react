@@ -212,4 +212,3 @@ git push
 
 1. Removed E2E tests with cypress in codebuild due to lack of perfomance and instability.
   1. You still can run `node_modules/.bin/cypress run` in your local.
-
