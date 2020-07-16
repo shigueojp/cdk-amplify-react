@@ -23,7 +23,7 @@ phases:
       - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
       - aws configure set default.region $AWS_REGION
       - aws configure set aws_session_token $AWS_SESSION_TOKEN
-      - sh ./amplifyPush.sh -e $AmplifyEnvProd
+      - sh ./amplifyPush.sh -e prod
       - npm run build
       - npm run test:ci
       # - pm2 start npm -- start
