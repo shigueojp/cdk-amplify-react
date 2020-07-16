@@ -15,7 +15,7 @@ The backend is using Amplify with the following services:
 - AppSync/GraphQL.
 
 The CI/CD process is created through CDK using:
-- Github as Source, Codebuild, Codepipeline, S3 and CloudFront.
+- CodeCommit, CodeBuild, Codepipeline, S3 and CloudFront.
 
 ## Story Case
 
