@@ -15,22 +15,23 @@ The backend is using Amplify with the following services:
 - AppSync/GraphQL.
 
 The CI/CD process is created through CDK using:
-- CodeCommit, CodeBuild, Codepipeline, S3 and CloudFront.
+- CodeCommit, CodeBuild, CodePipeline, S3 and CloudFront.
 
 ## Story Case
 
 A customer using Amplify needs across-account CI/CD between two AWS Accounts due to their company requirements and compliance. This customer have Developer AWS Account and Production AWS Account.
 
-Until the moment, Amplify does not support natively cross-account as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
+Until the moment, Amplify does not support natively cross-account using AWS CodeCommit, as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
 
 ### Solution
 
-Create a custom CI/CD through Codepipeline using CDK.
+![Amplify Configure](img/AmplifyCrossAcc.png)
+
+Create a custom CI/CD through Codepipeline using CDK, CodeBuild assumes production AWS Account and build amplify using STS::AssumeRole
 
 It uses two **different** accounts simulating two AWS accounts: developer and production.
 - Developer AWS Account is related to dev/test branches.
 - Production AWS Account is related to master branch.
-
 
 ## Requirements
 1. Install all the necessary tools:
@@ -143,15 +144,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
   ```
 ![CdkConfig](img/cdkEnv.png)
 
-1. Run the command below using your **GitHub Token**
-   1. To get your GitHub Token, follow the instructions [here](https://docs.aws.amazon.com/codepipeline/latest/userguide/GitHub-authentication.html).
-   ```
-    aws secretsmanager create-secret \
-    --name GitHubToken \
-    --secret-string <YourGitHubTokenID> \
-    --region us-east-1 --profile amplify-for-dev-test
-    ```
-2. Configure your Access-Key and Secret-Key for dev/test environment.
+1. Configure your Access-Key and Secret-Key for dev/test environment.
    ```
    aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test
    aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> --profile amplify-for-dev-test
