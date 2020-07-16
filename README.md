@@ -1,4 +1,4 @@
-# Amplify Cross Account CI/CD Using CDK
+# Amplify Cross-Account with CodeCommit using CDK
 
 This project was generated with:
  - [React](https://github.com/facebook/react) version 16.13.1.
@@ -21,13 +21,13 @@ The CI/CD process is created through CDK using:
 
 A customer using Amplify needs across-account CI/CD between two AWS Accounts due to their company requirements and compliance. This customer have Developer AWS Account and Production AWS Account.
 
-Until the moment, Amplify does not support natively cross-account using AWS CodeCommit, as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
+Until the moment, Amplify does not support natively cross-account using AWS CodeCommit as repo, as we can see [here](https://github.com/aws-amplify/amplify-console/issues/64) and [here](https://forums.aws.amazon.com/thread.jspa?messageID=928291).
 
 ### Solution
 
 ![Amplify Configure](img/AmplifyCrossAcc.png)
 
-Create a custom CI/CD through Codepipeline using CDK, CodeBuild assumes production AWS Account and build amplify using STS::AssumeRole
+Create a custom CI/CD through Codepipeline using CDK, CodeBuild assumes production AWS Account and build amplify through STS::AssumeRole
 
 It uses two **different** accounts simulating two AWS accounts: developer and production.
 - Developer AWS Account is related to dev/test branches.
@@ -41,8 +41,10 @@ It uses two **different** accounts simulating two AWS accounts: developer and pr
    - Install [AWS CLI V2](https://docs.aws.amazon.com/pt_br/cli/latest/userguide/cli-chap-install.html).
    - Install [AWS CDK](https://github.com/aws/aws-cdk)
 
-2. Fork this project for testing CI/CD.
-3. Clone the forked repository to your local.
+2. Download this project.
+3. Create a repository in CodeCommit.
+4. Push this project into CodeCommit.
+
 
 ## Setup AWS Profile
 >Create **two** IAM Users:
