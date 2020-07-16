@@ -4,12 +4,10 @@ import * as codepipelineactions from '@aws-cdk/aws-codepipeline-actions';
 import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as iam from '@aws-cdk/aws-iam';
 import * as ssm from '@aws-cdk/aws-ssm';
+import * as codecommit from '@aws-cdk/aws-codecommit';
 
 interface ConfigProps extends cdk.StackProps {
-  github: {
-    owner: string;
-    repository: string;
-  };
+  repository: string;
   ProdAcc: string;
 }
 export class CICDProdStack extends cdk.Stack {
@@ -63,22 +61,23 @@ export class CICDProdStack extends cdk.Stack {
       },
     );
 
-    // Token from github
-    const gitHubOAuthToken = cdk.SecretValue.secretsManager('GitHubToken', {
-      jsonField: 'GitHubToken',
-    });
+    // // Token from github
+    // const gitHubOAuthToken = cdk.SecretValue.secretsManager('GitHubToken', {
+    //   jsonField: 'GitHubToken',
+    // });
+
+    // Adding CodeCommit
+    const codeCommitRepo = codecommit.Repository.fromRepositoryName(this, 'ImportedRepo',
+      props.repository);
 
     // Source for pipeline Master
     pipelineMaster.addStage({
       stageName: 'Source',
       actions: [
-        new codepipelineactions.GitHubSourceAction({
+        new codepipelineactions.CodeCommitSourceAction({
           actionName: 'SourceMasterAod',
-          owner: props.github.owner,
-          repo: props.github.repository,
-          oauthToken: gitHubOAuthToken,
+          repository: codeCommitRepo,
           output: outputMasterSources,
-          trigger: codepipelineactions.GitHubTrigger.WEBHOOK,
           branch: 'master',
         }),
       ],

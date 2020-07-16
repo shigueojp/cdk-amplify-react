@@ -7,13 +7,11 @@ import * as codebuild from '@aws-cdk/aws-codebuild';
 import * as iam from '@aws-cdk/aws-iam';
 import * as cloudfront from '@aws-cdk/aws-cloudfront';
 import * as ssm from '@aws-cdk/aws-ssm';
+import * as codecommit from '@aws-cdk/aws-codecommit';
 import { BuildEnvironmentVariableType } from '@aws-cdk/aws-codebuild';
 
 interface ConfigProps extends cdk.StackProps {
-  github: {
-    owner: string;
-    repository: string;
-  };
+  repository: string
 }
 export class CICDDevStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: ConfigProps) {
@@ -32,10 +30,14 @@ export class CICDDevStack extends cdk.Stack {
       restartExecutionOnUpdate: true,
     });
 
-    // Token from github
-    const gitHubOAuthToken = cdk.SecretValue.secretsManager('GitHubToken', {
-      jsonField: 'GitHubToken',
-    });
+    // // Token from github
+    // const gitHubOAuthToken = cdk.SecretValue.secretsManager('GitHubToken', {
+    //   jsonField: 'GitHubToken',
+    // });
+
+    // Adding CodeCommit
+    const codeCommitRepo = codecommit.Repository.fromRepositoryName(this, 'ImportedRepo',
+      props.repository);
 
     // CodePipeline artifacts for Dev
     const outputDevSource = new codepipeline.Artifact();
@@ -45,11 +47,9 @@ export class CICDDevStack extends cdk.Stack {
     pipelineDev.addStage({
       stageName: 'Source',
       actions: [
-        new codepipelineactions.GitHubSourceAction({
+        new codepipelineactions.CodeCommitSourceAction({
           actionName: 'SourceDevAod',
-          owner: props.github.owner,
-          repo: props.github.repository,
-          oauthToken: gitHubOAuthToken,
+          repository: codeCommitRepo,
           output: outputDevSource,
           branch: 'dev',
         }),

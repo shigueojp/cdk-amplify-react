@@ -87,6 +87,25 @@
               "Principal": {
                 "AWS": {
                   "Fn::GetAtt": [
+                    "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDF452F50",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
                     "codeBuildRole2DDEF965",
                     "Arn"
                   ]
@@ -249,6 +268,16 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
+                  "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDF452F50",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
                   "pipelineMasterApprovalManualApprovalCodePipelineActionRole7A807A32",
                   "Arn"
                 ]
@@ -293,15 +322,13 @@
               {
                 "ActionTypeId": {
                   "Category": "Source",
-                  "Owner": "ThirdParty",
-                  "Provider": "GitHub",
+                  "Owner": "AWS",
+                  "Provider": "CodeCommit",
                   "Version": "1"
                 },
                 "Configuration": {
-                  "Owner": "shigueojp",
-                  "Repo": "cdk-amplify-react",
-                  "Branch": "master",
-                  "OAuthToken": "{{resolve:secretsmanager:GitHubToken:SecretString:GitHubToken::}}",
+                  "RepositoryName": "aod-devops",
+                  "BranchName": "master",
                   "PollForSourceChanges": false
                 },
                 "Name": "SourceMasterAod",
@@ -310,6 +337,12 @@
                     "Name": "Artifact_Source_SourceMasterAod"
                   }
                 ],
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDF452F50",
+                    "Arn"
+                  ]
+                },
                 "RunOrder": 1
               }
             ],
@@ -403,28 +436,195 @@
         "aws:cdk:path": "CICDProdStack/pipelineMaster/Resource"
       }
     },
-    "pipelineMasterSourceSourceMasterAodWebhookResource6D530E3F": {
-      "Type": "AWS::CodePipeline::Webhook",
+    "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDF452F50": {
+      "Type": "AWS::IAM::Role",
       "Properties": {
-        "Authentication": "GITHUB_HMAC",
-        "AuthenticationConfiguration": {
-          "SecretToken": "{{resolve:secretsmanager:GitHubToken:SecretString:GitHubToken::}}"
-        },
-        "Filters": [
-          {
-            "JsonPath": "$.ref",
-            "MatchEquals": "refs/heads/{Branch}"
-          }
-        ],
-        "TargetAction": "SourceMasterAod",
-        "TargetPipeline": {
-          "Ref": "pipelineMasterE8993238"
-        },
-        "TargetPipelineVersion": 1,
-        "RegisterWithThirdParty": true
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
       },
       "Metadata": {
-        "aws:cdk:path": "CICDProdStack/pipelineMaster/Source/SourceMasterAod/WebhookResource"
+        "aws:cdk:path": "CICDProdStack/pipelineMaster/Source/SourceMasterAod/CodePipelineActionRole/Resource"
+      }
+    },
+    "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDefaultPolicy2762E94E": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "pipelineMasterArtifactsBucket0FBB0120",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "pipelineMasterArtifactsBucket0FBB0120",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "pipelineMasterArtifactsBucketEncryptionKey3CD8EE6F",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "codecommit:GetBranch",
+                "codecommit:GetCommit",
+                "codecommit:UploadArchive",
+                "codecommit:GetUploadArchiveStatus",
+                "codecommit:CancelUploadArchive"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":codecommit:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":aod-devops"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDefaultPolicy2762E94E",
+        "Roles": [
+          {
+            "Ref": "pipelineMasterSourceSourceMasterAodCodePipelineActionRoleDF452F50"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CICDProdStack/pipelineMaster/Source/SourceMasterAod/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "pipelineMasterEventsRole83FFF724": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "CICDProdStack/pipelineMaster/EventsRole/Resource"
+      }
+    },
+    "pipelineMasterEventsRoleDefaultPolicyBB4DD737": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "codepipeline:StartPipelineExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":codepipeline:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "pipelineMasterE8993238"
+                    }
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "pipelineMasterEventsRoleDefaultPolicyBB4DD737",
+        "Roles": [
+          {
+            "Ref": "pipelineMasterEventsRole83FFF724"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CICDProdStack/pipelineMaster/EventsRole/DefaultPolicy/Resource"
       }
     },
     "pipelineMasterApprovalManualApprovalCodePipelineActionRole7A807A32": {
@@ -606,6 +806,80 @@
       },
       "Metadata": {
         "aws:cdk:path": "CICDProdStack/CodeBuildMaster/Resource"
+      }
+    },
+    "ImportedRepoCICDProdStackpipelineMaster1AFE96E6EventRuleC247A644": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "EventPattern": {
+          "source": [
+            "aws.codecommit"
+          ],
+          "resources": [
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":codecommit:us-east-1:",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":aod-devops"
+                ]
+              ]
+            }
+          ],
+          "detail-type": [
+            "CodeCommit Repository State Change"
+          ],
+          "detail": {
+            "event": [
+              "referenceCreated",
+              "referenceUpdated"
+            ],
+            "referenceName": [
+              "master"
+            ]
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":codepipeline:us-east-1:",
+                  {
+                    "Ref": "AWS::AccountId"
+                  },
+                  ":",
+                  {
+                    "Ref": "pipelineMasterE8993238"
+                  }
+                ]
+              ]
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "pipelineMasterEventsRole83FFF724",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "CICDProdStack/ImportedRepo/CICDProdStackpipelineMaster1AFE96E6EventRule/Resource"
       }
     }
   }
