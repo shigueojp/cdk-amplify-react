@@ -171,8 +171,8 @@ When the CDK deploy finishes, the pipeline will trigger and in a few minutes, yo
 
 **For CI/CD - Production environment inside cdk folder:**
 
-  2. Run `cdk deploy ProdAccStack --profile amplify-for-prod` inside cdk folder.
-  3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test` inside cdk folder.
+  1. Run `cdk deploy ProdAccStack --profile amplify-for-prod` inside cdk folder.
+  2. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test` inside cdk folder.
 
 When the CDK deploy finish, the pipeline will trigger, although, for production deployment, it is necessary to accept the manual approval in CodePipeline in order to continue.
 
