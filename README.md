@@ -162,17 +162,17 @@ The account you want to deploy have to be bootstrapped first, which means some m
 1. Run `npm install` inside cdk folder.
 2. If first time using CDK, run  `cdk bootstrap` inside **cdk** folder.
 
-For CI/CD - development/test environment inside cdk folder:
-  1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
+**For CI/CD - development/test environment:**
+  1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test` inside cdk folder.
 
 When the CDK deploy finishes, the pipeline will trigger and in a few minutes, you can check the endpoint created by cloudfront.
 
 ---
 
-For CI/CD - Production environment inside cdk folder:
+**For CI/CD - Production environment inside cdk folder:**
 
-  2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
-  3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
+  2. Run `cdk deploy ProdAccStack --profile amplify-for-prod` inside cdk folder.
+  3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test` inside cdk folder.
 
 When the CDK deploy finish, the pipeline will trigger, although, for production deployment, it is necessary to accept the manual approval in CodePipeline in order to continue.
 
