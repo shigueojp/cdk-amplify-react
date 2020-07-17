@@ -93,35 +93,35 @@ Create amplify environment: **dev**
 1. Run `npm install` to install all the packages needed.
 2. Run `npm run push:dev`, it will execute a script for pushing all the amplify services using **amplify-for-dev-test** AWS Profile with **dev** environment.
 
-Under the hood, the script will execute the commands below:
-
-3. Run `amplify init` and follow the instructions according to your environment.
-4. Choose **dev** for dev environment.
-5. Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
-![AmplifyDevTestProfile](img/amplifyDev.png)
-5. Run `amplify push` to push all the services to the cloud.
+Under the hood, the script will execute the following steps:
+   - Run `amplify init` and follow the instructions according to your environment.
+   - Choose **dev** for dev environment.
+   - Amplify requests for an AWS Profile. (Answer Y, choose the dev/test AWS profile - **amplify-for-dev-test**).
+   ![AmplifyDevTestProfile](img/amplifyDev.png)
+   - Run `amplify push` to push all the services to the cloud.
 
 Create amplify environment: **prod**
 
 1. Run `npm install` to install all the packages needed.
 2. Run `npm run push:dev`, it will execute a script for pushing all the amplify services using **amplify-for-prod** AWS Profile with **prod** environment.
 
-Under the hood, the script will execute the commands below:
-
-3. Run `amplify init` and follow the instructions according to your environment.
-4. Choose **prod** for production environment.
-5. Amplify requests for an AWS Profile. (Answer Y, choose the prod AWS profile - **amplify-for-prod**).
-    ![AmplifyProdProfile](img/amplifyProd.png)
-6. Run `amplify push` to push all the services to the cloud.
+Under the hood, the script will execute the following steps:
+   - Run `amplify init` and follow the instructions according to your environment.
+   - Choose **prod** for production environment.
+   - Amplify requests for an AWS Profile. (Answer Y, choose the prod AWS profile - **amplify-for-prod**).
+       ![AmplifyProdProfile](img/amplifyProd.png)
+   1. Run `amplify push` to push all the services to the cloud.
 
 When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 1. Commit this file create a dev branch.
-   1. Run `git add .`
-   2. Run `git commit -am 'Pushing all amplify configurations files.'`
-   3. Run `git push --set-upstream origin master` `
-   4. Run `git checkout -b dev`
-   5. Run `git push --set-upstream origin dev`
+   ```
+   git add .
+   git commit -am 'Pushing all amplify configurations files.
+   git push --set-upstream origin master
+   git checkout -b dev
+   git push --set-upstream origin dev
+   ```
 
 2. This file should be in **both** branches in order to have a CI/CD with success.
 
@@ -131,7 +131,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 2. Run `amplify env checkout dev` to use amplify services for dev environment.
 3. Run `npm run start` and open http://localhost:3000.
 
-## Deploy CI/CD Process Using CDK
+## Setting parameters for CDK & CodeBuild
 
 **Edit env variables from CDK**
 
@@ -153,22 +153,24 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
    ![SSMPutParamater](img/ssm_put_parameter.png)
 
-**Deploying with CDK**
+## Deploying with CDK
 
 1. Run `npm install` inside cdk folder.
-2. If, first time using CDK, run `cd cdk && cdk bootstrap`
+
+The account you want to deploy have to be bootstrapped first, which means some minimal infrastructure is provisioned into the account so that the CDK can access it.
+2. If first time using CDK, run `cd cdk && cdk bootstrap`
+
 
 For CI/CD for development/test environment in cdk folder:
   1. Run `cdk deploy CICDDevStack --profile amplify-for-dev-test`
 
-When the CDK deploy finish, it`s going to trigger the pipeline and in a few minutes, you can check the endpoint created by cloudfront.
+When the CDK deploy finishes, the pipeline will trigger and in a few minutes, you can check the endpoint created by cloudfront.
 
 For CI/CD Production environment cdk folder:
   2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
   3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
 
-
-when the CDK deploy finish, it`s going to trigger the pipeline, for production deployment, it is necessary to accept the manual approval in CodePipeline in order to continue.
+When the CDK deploy finish, the pipeline will trigger, although, for production deployment, it is necessary to accept the manual approval in CodePipeline in order to continue.
 
 ## Testing CI/CD
 
@@ -184,14 +186,14 @@ Access your dev environment.
 3. Run `npm run start` and verify the changed made fixed the problem.
 4. If everything went well - commit & push.
 5. The pipeline from dev environment will trigger. When finished, access the cloudfront DNS and see the change.
-5. Change branch to master and merge it.
+6. Change branch to master and merge it.
 ```
 git checkout master
 git merge dev
 git push
 ```
-5. The pipeline from production environment will trigger.
-6. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
+7. The pipeline from production environment will trigger.
+8. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
 
 ### Testing your resources in local development
 1. Run `npm run test` for Unit Test and Integration Test.

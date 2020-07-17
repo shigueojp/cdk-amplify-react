@@ -31,7 +31,8 @@ export const Container = styled.div<IContainerProps>`
 export const LeftSide = styled.div`
   max-width: 400px;
   border-right: 1px solid #fff;
-  margin-right: 10px;
+  border-color: rgba(255, 255, 255, 0.2);
+  padding-right: 10px;
   flex: 1;
   form {
     display: flex;
