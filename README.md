@@ -25,8 +25,6 @@ Until the moment, Amplify does not support natively cross-account using AWS Code
 
 ### Solution
 
-![Amplify Configure](img/AmplifyCrossAcc.png)
-
 Create a custom CI/CD through Codepipeline using CDK, CodeBuild assumes production AWS Account and build amplify through STS::AssumeRole
 
 It uses two **different** accounts simulating two AWS accounts: developer and production.
