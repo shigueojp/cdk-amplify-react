@@ -137,19 +137,19 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
 1. Rename `cdk/config/env.ts.example` to `cdk/config/env.ts`
 2. Change the variables for your environment variables.
-- To get the Account Number leveraging AWS CLI.
+   - To get the Account Number leveraging AWS CLI.
   ```
   aws sts get-caller-identity --profile amplify-for-dev-test
   aws sts get-caller-identity --profile amplify-for-prod
   ```
-![CdkConfig](img/cdkEnv.png)
+  ![CdkConfig](img/cdkEnv.png)
 
 1. Configure your Access-Key and Secret-Key for dev/test environment.
    ```
    aws ssm put-parameter --name "access-key-amplify-dev-test" --type "SecureString" --value <YourAccessKey> --profile amplify-for-dev-test
    aws ssm put-parameter --name "secret-key-amplify-dev-test" --type "SecureString" --value <YourSecretKey> --profile amplify-for-dev-test
    ```
-   1. If success, the image below should appear in your terminal.
+   - If success, the image below should appear in your terminal.
 
    ![SSMPutParamater](img/ssm_put_parameter.png)
 
