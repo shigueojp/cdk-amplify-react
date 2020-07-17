@@ -199,18 +199,18 @@ git push
 7. The pipeline from production environment will trigger.
 8. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
 
-### Testing your resources in local development
+## Testing your resources in local development
 1. Run `npm run test` for Unit Test and Integration Test.
 2. Run `node_modules/.bin/cypress run` for E2E Test.
 
-### Clean your resources
+## Clean your resources
 >The S3 buckets should be deleted manually.
 
 1. Run `cdk destroy ProdAccStack --profile amplify-for-prod`
 2. Run `cdk destroy CICDDevStack --profile amplify-for-dev-test`
 3. Run `cdk destroy CICDProdStack --profile amplify-for-dev-test`
 
-### Issues
+## Issues
 
 1. Removed E2E tests with cypress in codebuild due to lack of perfomance and instability.
   1. You still can run `node_modules/.bin/cypress run` in your local.
