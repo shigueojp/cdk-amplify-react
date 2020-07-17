@@ -112,7 +112,7 @@ Under the hood, the script will execute the following steps:
    - Choose **prod** for production environment.
    - Amplify requests for an AWS Profile. (Answer Y, choose the prod AWS profile - **amplify-for-prod**).
        ![AmplifyProdProfile](img/amplifyProd.png)
-   1. Run `amplify push` to push all the services to the cloud.
+   - Run `amplify push` to push all the services to the cloud.
 
 When done, verify if exists a file in **/amplify/team-provider.info.json**.
 
