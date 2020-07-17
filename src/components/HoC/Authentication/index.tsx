@@ -24,7 +24,6 @@ const AuthComponent: React.FC = ({ children }) => {
     }
     return onAuthUIStateChange((newAuthState) => {
       setAuthState(newAuthState);
-      console.log(newAuthState);
     });
   }, [authState, signIn]);
 

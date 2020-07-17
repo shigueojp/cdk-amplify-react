@@ -77,8 +77,6 @@ const Dashboard: React.FC = () => {
       setNextToken(res?.data?.listPostsSortedByTimestamp?.nextToken);
 
     if (res.data?.listPostsSortedByTimestamp?.items) {
-      // Para cada POST, pegar o owner, comparar com o User e instanciar a imagem do S3, retornando no POST
-      // Lição de vida com Promise All e Alias, escrever aqui
       const chimesFormatted = await Promise.all(
         res.data.listPostsSortedByTimestamp.items.map(
           async (item): Promise<IPost> => {
@@ -110,7 +108,7 @@ const Dashboard: React.FC = () => {
       setChimes(result);
       setIsLoadingChime(false);
     });
-    // Here comes part 2
+
     const subscription = API.graphql(graphqlOperation(onCreatePost));
     if (subscription instanceof Observable) {
       const sub = subscription.subscribe({

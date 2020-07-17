@@ -27,6 +27,8 @@ Until the moment, Amplify does not support natively cross-account using AWS Code
 
 Create a custom CI/CD through Codepipeline using CDK, CodeBuild assumes production AWS Account and build amplify through STS::AssumeRole
 
+![AmplifyDevTestProfile](img/AmplifyCrossAcc.png)
+
 It uses two **different** accounts simulating two AWS accounts: developer and production.
 - Developer AWS Account is related to dev/test branches.
 - Production AWS Account is related to master branch.
@@ -41,7 +43,7 @@ It uses two **different** accounts simulating two AWS accounts: developer and pr
 
 2. Download this project.
 3. Create a repository in CodeCommit.
-4. Push this project into CodeCommit.
+4. Push this project into CodeCommit repository in AWS Developer Account.
 
 
 ## Setup AWS Profile

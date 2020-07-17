@@ -66,8 +66,6 @@ const Profile: React.FC = () => {
       };
       setUserState(userProfile);
       localStorage.setItem('@AuthUser', JSON.stringify(userProfile));
-
-      // Removing userProfile.profileURL for dynamo and immutability state
       const { profileURL, ...rest } = userProfile;
       await updateProfile(rest);
     },
