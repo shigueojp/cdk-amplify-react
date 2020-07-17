@@ -197,8 +197,8 @@ Access your dev environment.
   git push
   ```
 
-7. The pipeline from production environment will trigger.
-8. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
+1. The pipeline from production environment will trigger.
+2. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
 
 ## Testing your resources in local development
 1. Run `npm run test` for Unit Test and Integration Test.
