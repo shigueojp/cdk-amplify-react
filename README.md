@@ -168,6 +168,7 @@ For CI/CD - development/test environment inside cdk folder:
 When the CDK deploy finishes, the pipeline will trigger and in a few minutes, you can check the endpoint created by cloudfront.
 
 For CI/CD - Production environment inside cdk folder:
+
   2. Run `cdk deploy ProdAccStack --profile amplify-for-prod`
   3. Run `cdk deploy CICDProdStack --profile amplify-for-dev-test`
 
