@@ -191,7 +191,6 @@ Access your dev environment.
 4. If everything went well - commit & push.
 5. The pipeline from dev environment will trigger. When finished, access the cloudfront DNS and see the change.
 6. Change branch to master and merge it.
-
   ```
   git checkout master
   git merge dev
