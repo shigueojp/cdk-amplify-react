@@ -183,7 +183,7 @@ A user tweeted and verified the distance from now is not working correctly. Plea
 Access your dev environment.
 1. Run `git checkout dev` and `amplify env checkout dev`.
 2. Try to figure it out the bug.
-  3. Go to pages/dashboard/index.tsx and uncomment 3 lines and erase the line 130.
+   - Go to pages/dashboard/index.tsx and uncomment 3 lines and erase the line 130.
   ![BeforeFix](img/_beforeFix.png)
   ![AfterFix](img/_afterFix.png)
 
