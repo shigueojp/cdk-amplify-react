@@ -191,11 +191,11 @@ Access your dev environment.
 4. If everything went well - commit & push.
 5. The pipeline from dev environment will trigger. When finished, access the cloudfront DNS and see the change.
 6. Change branch to master and merge it.
-```
-git checkout master
-git merge dev
-git push
-```
+  ```
+  git checkout master
+  git merge dev
+  git push
+  ```
 7. The pipeline from production environment will trigger.
 8. Manual approve should be approved and when finished, access the cloudfront DNS to see the change.
 
