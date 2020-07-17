@@ -117,7 +117,7 @@ When done, verify if exists a file in **/amplify/team-provider.info.json**.
 1. Commit this file create a dev branch.
    ```
    git add .
-   git commit -am 'Pushing all amplify configurations files.
+   git commit -am 'Pushing all amplify configurations files.'
    git push --set-upstream origin master
    git checkout -b dev
    git push --set-upstream origin dev
