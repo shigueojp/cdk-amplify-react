@@ -156,7 +156,7 @@ const Profile: React.FC = () => {
           name="confirmPassword"
           placeholder="Confirm Password"
         />
-        <Button type="submit">Update Profile</Button>
+        {/* <Button type="submit">Update Profile</Button> */}
       </Form>
       <Link id="logoutBtn" to="/" onClick={handleLogout}>
         Logout
