@@ -22,9 +22,6 @@ phases:
       - sh ./amplifyPush.sh -e dev
       - npm run build
       - npm run test:ci
-      # - pm2 start npm -- start
-      # - wait-on http://localhost:3000
-      # - node_modules/.bin/cypress run
       - echo Build finished on `date`
 
 #Testing feature
@@ -33,10 +30,6 @@ reports:
     files: #Store all of the files
       - "junit.xml"
     base-directory: "./"
-  # TestReport: # CodeBuild will create a report group called "TestReport".
-  #   files: #Store all of the files
-  #     - "**/*"
-  #   base-directory: "results"
 artifacts:
   files:
     - "**/*"

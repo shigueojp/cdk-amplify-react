@@ -10,7 +10,6 @@ const Login: React.FC = () => {
   async function SignIn(data: { email: string; password: string }) {
     try {
       const user = await Auth.signIn(data.email, data.password);
-      console.log(user);
     } catch (error) {
       console.log('error confirming sign up', error);
     }
